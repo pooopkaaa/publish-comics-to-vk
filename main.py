@@ -1,4 +1,3 @@
-import json
 import os
 import random
 
@@ -85,7 +84,7 @@ def main():
             access_token=VK_ACCESS_TOKEN,
             v=VK_API_VERSION
         )
-        post_id = publish_uploaded_image(
+        publish_uploaded_image(
             owner_id=f'-{VK_GROUP_ID}',
             from_group=1,
             attachments=f'photo{owner_id}_{media_id}',
@@ -93,7 +92,8 @@ def main():
             v=VK_API_VERSION,
             message=author_comment
         )
-        print(post_id)
+
+        os.remove(comic_filename)
 
     except requests.exceptions.HTTPError as http_error:
         print(f'Error -> {http_error}')
