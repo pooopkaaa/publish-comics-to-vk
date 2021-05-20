@@ -30,6 +30,8 @@ def main():
     comic_filename = comic_name + '.json'
     comic_image_filename = comic_name + '.png'
     comic_image_url = comic_json['img']
+    author_comment = comic_json['alt']
+    print(author_comment)
     
     download_comics_to_file(comic_filename, comic_json)
     download_comic_image(comic_image_filename, comic_image_url)
