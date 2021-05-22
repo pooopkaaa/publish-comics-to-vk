@@ -74,30 +74,30 @@ def main():
 
         download_comic(comic_filename, comic_url)
 
-        VK_ACCESS_TOKEN = os.getenv('VK_ACCESS_TOKEN')
-        VK_GROUP_ID = os.getenv('VK_GROUP_ID')
-        VK_API_VERSION = os.getenv('VK_API_VERSION')
+        vk_access_token = os.getenv('VK_ACCESS_TOKEN')
+        vk_group_id = os.getenv('VK_GROUP_ID')
+        vk_api_version = os.getenv('VK_API_VERSION')
 
         assigned_url = get_url_for_upload_image(
-            group_id=VK_GROUP_ID,
-            access_token=VK_ACCESS_TOKEN,
-            v=VK_API_VERSION
+            group_id=vk_group_id,
+            access_token=vk_access_token,
+            v=vk_api_version
         )
 
         uploaded_foto_parameters = upload_image(assigned_url, comic_filename)
 
         media_id, owner_id = lock_uploaded_image(
-            group_id=VK_GROUP_ID,
+            group_id=vk_group_id,
             **uploaded_foto_parameters,
-            access_token=VK_ACCESS_TOKEN,
-            v=VK_API_VERSION
+            access_token=vk_access_token,
+            v=vk_api_version
         )
         publish_uploaded_image(
-            owner_id=f'-{VK_GROUP_ID}',
+            owner_id=f'-{vk_group_id}',
             from_group=1,
             attachments=f'photo{owner_id}_{media_id}',
-            access_token=VK_ACCESS_TOKEN,
-            v=VK_API_VERSION,
+            access_token=vk_access_token,
+            v=vk_api_version,
             message=author_comment
         )
 
