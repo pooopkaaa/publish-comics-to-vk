@@ -107,10 +107,10 @@ def main():
             message=author_comment
         )
 
-        os.remove(comic_filename)
-
     except requests.exceptions.HTTPError as http_error:
         print(f'Error -> {http_error}')
+    finally:
+        os.remove(comic_filename)
 
 
 if __name__ == '__main__':
