@@ -17,6 +17,12 @@ def get_response_post(url, files=None, payload=None):
     return response
 
 
+def get_comic_description(comic_number):
+    url = f'https://xkcd.com/{comic_number}/info.0.json'
+    response = get_response_get(url)
+    return response.json()
+
+
 def check_post_response(response):
     response.raise_for_status()
     response_dict = response.json()
@@ -67,11 +73,8 @@ def main():
     load_dotenv()
     comics_amount = get_comics_amount()
     comic_number = random.randint(1, comics_amount)
-    url = f'https://xkcd.com/{comic_number}/info.0.json'
     try:
-        response = get_response_get(url)
-
-        comic_description = response.json()
+        comic_description = get_comic_description(comic_number)
 
         comic_name = comic_description['safe_title']
         comic_filename = f'{comic_name}.png'
