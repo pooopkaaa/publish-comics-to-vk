@@ -36,7 +36,7 @@ def get_comics_amount():
     return response['num']
 
 
-def download_comic(filename, url):
+def download_comic_image(filename, url):
     response = get_response_get(url)
     with open(filename, 'wb') as file:
         file.write(response.content)
@@ -82,7 +82,7 @@ def main():
         comic_url = comic_description['img']
         author_comment = comic_description['alt']
 
-        download_comic(comic_filename, comic_url)
+        download_comic_image(comic_filename, comic_url)
 
         vk_access_token = os.getenv('VK_ACCESS_TOKEN')
         vk_group_id = os.getenv('VK_GROUP_ID')
