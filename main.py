@@ -60,7 +60,7 @@ def main():
         comic_json = response.json()
 
         comic_name = comic_json['safe_title']
-        comic_filename = comic_name + '.png'
+        comic_filename = f'{comic_name}.png'
         comic_url = comic_json['img']
         author_comment = comic_json['alt']
 
