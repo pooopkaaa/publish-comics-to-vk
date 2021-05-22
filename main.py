@@ -3,6 +3,7 @@ import random
 
 import requests
 from dotenv import load_dotenv
+from requests.api import get
 
 
 def get_response_get(url, payload=None):
@@ -15,6 +16,12 @@ def get_response_post(url, files):
     response = requests.post(url, files=files)
     response.raise_for_status()
     return response
+
+
+def get_comics_amount():
+    url = 'https://xkcd.com/info.0.json'
+    response = get_response_get(url).json()
+    return response['num']
 
 
 def download_comic(filename, url):
@@ -52,7 +59,8 @@ def publish_uploaded_image(**payload):
 
 def main():
     load_dotenv()
-    comic_number = random.randint(1, 2465)
+    comics_amount = get_comics_amount()
+    comic_number = random.randint(1, comics_amount)
     url = f'https://xkcd.com/{comic_number}/info.0.json'
     try:
         response = get_response_get(url)
