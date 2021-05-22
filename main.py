@@ -27,7 +27,7 @@ def check_post_response(response):
     response.raise_for_status()
     response_dict = response.json()
     if 'error' in response_dict:
-        raise requests.HTTPError(response_dict['error']['error_msg'])
+        raise requests.HTTPError(response_dict['error']['error_code'])
 
 
 def get_comics_amount():
@@ -71,9 +71,10 @@ def publish_uploaded_image(**payload):
 
 def main():
     load_dotenv()
-    comics_amount = get_comics_amount()
-    comic_number = random.randint(1, comics_amount)
     try:
+        comics_amount = get_comics_amount()
+        comic_number = random.randint(1, comics_amount)
+
         comic_description = get_comic_description(comic_number)
 
         comic_name = comic_description['safe_title']
