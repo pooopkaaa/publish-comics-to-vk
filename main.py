@@ -3,7 +3,6 @@ import random
 
 import requests
 from dotenv import load_dotenv
-from requests.api import get
 
 
 def get_response_get(url, payload=None):
@@ -12,10 +11,17 @@ def get_response_get(url, payload=None):
     return response
 
 
-def get_response_post(url, files):
-    response = requests.post(url, files=files)
-    response.raise_for_status()
+def get_response_post(url, files=None, payload=None):
+    response = requests.post(url, files=files, data=payload)
+    check_post_response(response)
     return response
+
+
+def check_post_response(response):
+    response.raise_for_status()
+    response_dict = response.json()
+    if 'error' in response_dict:
+        raise requests.HTTPError(response_dict['error']['error_msg'])
 
 
 def get_comics_amount():
@@ -32,7 +38,7 @@ def download_comic(filename, url):
 
 def get_url_for_upload_image(**payload):
     url = 'https://api.vk.com/method/photos.getWallUploadServer'
-    response = get_response_get(url, payload)
+    response = get_response_post(url, payload=payload)
     return response.json()['response']['upload_url']
 
 
@@ -41,19 +47,19 @@ def upload_image(url, filename):
         files = {
             'photo': file,
         }
-        response = get_response_post(url, files)
+        response = get_response_post(url, files=files)
         return response.json()
 
 
 def lock_uploaded_image(**payload):
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
-    response = get_response_get(url, payload).json()['response'][0]
+    response = get_response_post(url, payload=payload).json()['response'][0]
     return response['id'], response['owner_id']
 
 
 def publish_uploaded_image(**payload):
     url = 'https://api.vk.com/method/wall.post'
-    response = get_response_get(url, payload)
+    response = get_response_post(url, payload=payload)
     return response.json()['response']['post_id']
 
 
