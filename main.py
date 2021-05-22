@@ -57,12 +57,12 @@ def main():
     try:
         response = get_response_get(url)
 
-        comic_json = response.json()
+        comic_description = response.json()
 
-        comic_name = comic_json['safe_title']
+        comic_name = comic_description['safe_title']
         comic_filename = f'{comic_name}.png'
-        comic_url = comic_json['img']
-        author_comment = comic_json['alt']
+        comic_url = comic_description['img']
+        author_comment = comic_description['alt']
 
         download_comic(comic_filename, comic_url)
 
