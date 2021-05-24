@@ -69,20 +69,25 @@ def publish_uploaded_image(**payload):
     return response['response']['post_id']
 
 
+def fetch_random_comic():
+    comics_amount = get_comics_amount()
+    comic_number = random.randint(1, comics_amount)
+
+    comic_description = get_comic_description(comic_number)
+
+    comic_name = comic_description['safe_title']
+    comic_filename = f'{comic_name}.png'
+    comic_url = comic_description['img']
+    author_comment = comic_description['alt']
+
+    download_comic_image(comic_filename, comic_url)
+    return comic_filename, author_comment
+
+
 def main():
     load_dotenv()
     try:
-        comics_amount = get_comics_amount()
-        comic_number = random.randint(1, comics_amount)
-
-        comic_description = get_comic_description(comic_number)
-
-        comic_name = comic_description['safe_title']
-        comic_filename = f'{comic_name}.png'
-        comic_url = comic_description['img']
-        author_comment = comic_description['alt']
-
-        download_comic_image(comic_filename, comic_url)
+        comic_filename, author_comment = fetch_random_comic()
     except requests.exceptions.HTTPError as http_error:
         print(f'Error -> {http_error}')
         exit()
