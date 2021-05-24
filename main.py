@@ -1,5 +1,6 @@
 import os
 import random
+import logging
 
 import requests
 from dotenv import load_dotenv
@@ -89,7 +90,7 @@ def main():
     try:
         comic_filename, author_comment = fetch_random_comic()
     except requests.exceptions.HTTPError as http_error:
-        print(f'Error -> {http_error}')
+        logging.error(http_error)
         exit()
     try:
         vk_access_token = os.getenv('VK_ACCESS_TOKEN')
@@ -120,7 +121,7 @@ def main():
         )
 
     except requests.exceptions.HTTPError as http_error:
-        print(f'Error -> {http_error}')
+        logging.error(http_error)
     finally:
         os.remove(comic_filename)
 
