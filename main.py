@@ -83,7 +83,10 @@ def main():
         author_comment = comic_description['alt']
 
         download_comic_image(comic_filename, comic_url)
-
+    except requests.exceptions.HTTPError as http_error:
+        print(f'Error -> {http_error}')
+        exit()
+    try:
         vk_access_token = os.getenv('VK_ACCESS_TOKEN')
         vk_group_id = os.getenv('VK_GROUP_ID')
         vk_api_version = os.getenv('VK_API_VERSION')
